@@ -1,0 +1,36 @@
+bin
+obj
+Bin
+Obj
+*.suo
+gateway.cfg
+logConfig.xml
+*.user
+*.Publish.xml
+*.orig
+*-logs.txt*
+Log.txt
+*.datasource
+S-money.Websites/*/Service References/*/*.wsdl
+UnitTest/Service References/*/*.wsdl
+*.disco
+*/Reference.cs
+*.svcmap
+*.log
+build.config.bat
+patch_db.config.bat
+_ReSharper*
+*StyleCop*
+*.bak
+Backup/*
+.vs/*
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.leu
+.vs/
+packages/
+*override.json
+microserviceConfigurationFallback.xml
+*.jfm
+*.dbmdl

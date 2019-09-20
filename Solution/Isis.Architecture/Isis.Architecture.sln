@@ -1,0 +1,71 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2048
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Isis.Architecture.Test", "Isis.Architecture.Test", "{9E71BA21-0920-4C96-AC40-940C0CA5DDD4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Isis.Architecture.Pattern", "Isis.Architecture.Pattern", "{9DC2A10A-9DC7-469D-A094-35D3D597E86A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Isis.Architecture.Pattern.Specification", "..\..\Projet\Architecture\Isis.Architecture.Pattern.Specification\Isis.Architecture.Pattern.Specification.csproj", "{C52FEB89-7047-44E5-BAB8-4BE5D9F7D5D9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Isis.Architecture.Infrastructure", "Isis.Architecture.Infrastructure", "{2D99CA8C-2F23-40DF-B370-C65364237F50}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Isis.Architecture.Infrastructure.Repository.Ef", "..\..\Projet\Architecture\Isis.Architecture.Infrastructure.Repository.Ef\Isis.Architecture.Infrastructure.Repository.Ef.csproj", "{71DAC123-3479-4736-8A5C-E748975E90F1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Isis.Architecture.Core", "Isis.Architecture.Core", "{8903922C-E212-4C3B-AEF8-4BC9679DB926}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Isis.Architecture.Core.Domain", "..\..\Projet\Architecture\Isis.Architecture.Core.Domain\Isis.Architecture.Core.Domain.csproj", "{DDC3D549-05E9-4B4E-9DAB-4A1B72213FFF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Isis.Architecture.Core.Domain.UnitTest", "..\..\Test\Isis.Architecture.Core.Domain.UnitTest\Isis.Architecture.Core.Domain.UnitTest.csproj", "{9BB1C523-4DD7-4997-AC67-7514603A16A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Isis.Architecture.Pattern.Specification.UnitTest", "..\..\Test\Isis.Architecture.Pattern.Specification.UnitTest\Isis.Architecture.Pattern.Specification.UnitTest.csproj", "{02CEBB02-DF4B-4C23-A48D-1A90937D602A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest", "..\..\Test\Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest\Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest.csproj", "{1EA9BC6D-33A4-4054-A5BA-7AD533627318}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C52FEB89-7047-44E5-BAB8-4BE5D9F7D5D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C52FEB89-7047-44E5-BAB8-4BE5D9F7D5D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C52FEB89-7047-44E5-BAB8-4BE5D9F7D5D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C52FEB89-7047-44E5-BAB8-4BE5D9F7D5D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71DAC123-3479-4736-8A5C-E748975E90F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71DAC123-3479-4736-8A5C-E748975E90F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71DAC123-3479-4736-8A5C-E748975E90F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71DAC123-3479-4736-8A5C-E748975E90F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDC3D549-05E9-4B4E-9DAB-4A1B72213FFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDC3D549-05E9-4B4E-9DAB-4A1B72213FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDC3D549-05E9-4B4E-9DAB-4A1B72213FFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDC3D549-05E9-4B4E-9DAB-4A1B72213FFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BB1C523-4DD7-4997-AC67-7514603A16A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BB1C523-4DD7-4997-AC67-7514603A16A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BB1C523-4DD7-4997-AC67-7514603A16A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BB1C523-4DD7-4997-AC67-7514603A16A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02CEBB02-DF4B-4C23-A48D-1A90937D602A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02CEBB02-DF4B-4C23-A48D-1A90937D602A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02CEBB02-DF4B-4C23-A48D-1A90937D602A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02CEBB02-DF4B-4C23-A48D-1A90937D602A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EA9BC6D-33A4-4054-A5BA-7AD533627318}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EA9BC6D-33A4-4054-A5BA-7AD533627318}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EA9BC6D-33A4-4054-A5BA-7AD533627318}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EA9BC6D-33A4-4054-A5BA-7AD533627318}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C52FEB89-7047-44E5-BAB8-4BE5D9F7D5D9} = {9DC2A10A-9DC7-469D-A094-35D3D597E86A}
+		{71DAC123-3479-4736-8A5C-E748975E90F1} = {2D99CA8C-2F23-40DF-B370-C65364237F50}
+		{DDC3D549-05E9-4B4E-9DAB-4A1B72213FFF} = {8903922C-E212-4C3B-AEF8-4BC9679DB926}
+		{9BB1C523-4DD7-4997-AC67-7514603A16A1} = {9E71BA21-0920-4C96-AC40-940C0CA5DDD4}
+		{02CEBB02-DF4B-4C23-A48D-1A90937D602A} = {9E71BA21-0920-4C96-AC40-940C0CA5DDD4}
+		{1EA9BC6D-33A4-4054-A5BA-7AD533627318} = {9E71BA21-0920-4C96-AC40-940C0CA5DDD4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {12DA1463-AFB3-4B3C-BC7D-EDEC4B42ED78}
+	EndGlobalSection
+EndGlobal

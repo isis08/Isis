@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2048
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Isis.Tools.Serialization", "..\..\Projet\Tools\Isis.Tools.Serialization\Isis.Tools.Serialization.csproj", "{A337D00F-572E-4804-9265-69B19DEEC308}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Isis.Tools.Reflection", "..\..\Projet\Tools\Isis.Tools.Reflection\Isis.Tools.Reflection.csproj", "{7BE5AFB9-5E3B-4717-B46F-F6017C24B03E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A337D00F-572E-4804-9265-69B19DEEC308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A337D00F-572E-4804-9265-69B19DEEC308}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A337D00F-572E-4804-9265-69B19DEEC308}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A337D00F-572E-4804-9265-69B19DEEC308}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BE5AFB9-5E3B-4717-B46F-F6017C24B03E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BE5AFB9-5E3B-4717-B46F-F6017C24B03E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BE5AFB9-5E3B-4717-B46F-F6017C24B03E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BE5AFB9-5E3B-4717-B46F-F6017C24B03E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B85986AF-6DAA-43DC-80F7-D99492753211}
+	EndGlobalSection
+EndGlobal
