@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Isis.Architecture.Core.Domain.Entity;
 using Isis.Architecture.Core.Domain.Repository;
 using Isis.Architecture.Core.Domain.Specification;
@@ -35,9 +36,9 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef
                 .AsEnumerable();
         }
 
-        public virtual TEntity Get(long id)
+        public virtual Task<TEntity> GetAsync(long id)
         {
-            return entitySet.Find(id);
+            return entitySet.FindAsync(id);
         }
 
         public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> rootSpecification,

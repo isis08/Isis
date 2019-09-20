@@ -500,7 +500,7 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
 
             #region Act
 
-            var entitiesAdded = repository.Get(1);
+            var entitiesAdded = repository.GetAsync(1);
 
             #endregion
 
