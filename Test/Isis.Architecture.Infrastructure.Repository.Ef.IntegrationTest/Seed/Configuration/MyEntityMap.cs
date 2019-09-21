@@ -14,8 +14,8 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest.Seed.Co
             entityBuilder.Ignore(x => x.State);
 
             entityBuilder.Property(x => x.Id)
-                .HasColumnName("id")
-                .ValueGeneratedOnAdd();
+                .HasColumnName("id");
+                //.ValueGeneratedOnAdd();
 
             entityBuilder.Property(x => x.ModifiedLastDate).IsRequired(false);
             entityBuilder.Property(x => x.AddedDate).IsRequired(false);

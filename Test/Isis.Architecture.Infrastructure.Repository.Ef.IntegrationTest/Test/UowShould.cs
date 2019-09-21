@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.SQLite;
 using System.Linq;
+using System.Threading.Tasks;
 using Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest.Seed.Context;
 using Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest.Seed.Entity;
 using Microsoft.Data.Sqlite;
@@ -13,7 +14,7 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
     {
 
         [Fact]
-        public void AddThenUpdateWithError()
+        public async Task AddThenUpdateWithError()
         {
             //-- In-memory database only exists while the connection is open
             var connection = new SQLiteConnection("DataSource=:memory:");
@@ -57,7 +58,7 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
                     ctxt.MyDisconnectedEntities.Detach(entity);
 
                     //-- Fetch the item and update title
-                    var newItem = repository.All().FirstOrDefault(i => i.Name == initialName);
+                    var newItem = await repository.FindSingleAsync(i => i.Name == initialName);
                     Assert.NotNull(newItem);
                     Assert.Same(entity, newItem);
 
@@ -87,7 +88,8 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
                 using (var ctxt = new TestContextUow(options))
                 {
                     var repository = ctxt.MyDisconnectedEntities;
-                    Assert.Null(repository.All().FirstOrDefault(i => i.Name == newName));
+                    var result = await repository.FindSingleAsync(i => i.Name == newName);
+                    Assert.Null(result);
                 }
 
                 #endregion
@@ -101,7 +103,7 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
 
 
         [Fact]
-        public void AddThenUpdateWithoutError()
+        public async Task AddThenUpdateWithoutError()
         {
             //-- In-memory database only exists while the connection is open
             var connection = new SqliteConnection("DataSource=:memory:");
@@ -146,7 +148,7 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
                     ctxt.MyDisconnectedEntities.Detach(entity);
 
                     //-- Fetch the item and update title
-                    var newEntity = repository.All().FirstOrDefault(i => i.Name == initialName);
+                    var newEntity = await repository.FindSingleAsync(i => i.Name == initialName);
                     Assert.NotNull(newEntity);
                     Assert.Same(entity, newEntity);
                     var newName = Guid.NewGuid().ToString();
@@ -162,7 +164,7 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
                     //-- Save context
                     ctxt.Save();
 
-                    var entityUpdated = repository.All().FirstOrDefault(i => i.Name == newName);
+                    var entityUpdated = await repository.FindSingleAsync(i => i.Name == newName);
                     
                     //-- Commit transaction
                     ctxt.CommitTransaction();

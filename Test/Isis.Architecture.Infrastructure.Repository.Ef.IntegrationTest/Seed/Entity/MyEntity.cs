@@ -8,8 +8,6 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest.Seed.En
     {
         public MyEntity() {}
 
-        public override long Id { get; set; }
-
         public long MyNestedEntityId { get; set; }
 
         public virtual MyNestedEntity MyNestedEntity { get; set; }
