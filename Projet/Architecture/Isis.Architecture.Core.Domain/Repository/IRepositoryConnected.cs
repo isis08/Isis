@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Isis.Architecture.Core.Domain.Repository
 {
@@ -6,14 +7,18 @@ namespace Isis.Architecture.Core.Domain.Repository
     {
         void Add(TEntity entity);
 
-        void Add(IEnumerable<TEntity> entity);
+        Task AddAsync(TEntity entity);
+
+        void Add(IEnumerable<TEntity> entities);
+
+        Task AddAsync(IEnumerable<TEntity> entities);
 
         void Delete(TEntity entity);
 
-        void Delete(IEnumerable<TEntity> entity);
+        void Delete(IEnumerable<TEntity> entities);
 
         void Update(TEntity entity);
 
-        void Update(IEnumerable<TEntity> entity);
+        void Update(IEnumerable<TEntity> entities);
     }
 }

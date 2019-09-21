@@ -13,14 +13,6 @@ namespace Isis.Architecture.Core.Domain.Entity
 
         public State State { get; protected set; }
 
-        private long _id;
-
-        public override long Id
-        {
-            get => _id;
-            set => _id = value;
-        }
-
         public virtual void Create()
         {
             State = State.Added;

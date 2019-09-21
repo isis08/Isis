@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest.Seed.Entity;
 using Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest.Seed.Specification;
 using Isis.Architecture.Pattern.Specification;
@@ -8,14 +9,15 @@ using Xunit;
 
 namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
 {
-    public class RepositoryConnectedShould : TestBase
+    public class RepositoryDisconnectedShould : TestBase
     {
+
         [Fact]
-        public void AddAndSetId()
+        public async Task AddAndSetId()
         {
             #region Arrange
 
-            var repository = Context.MyConnectedEntities;
+            var repository = Context.MyDisconnectedEntities;
 
             var entity = new MyEntity()
             {
@@ -28,8 +30,8 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
 
             repository.Add(entity);
             Context.Save();
-            var entityAdded = repository.All().FirstOrDefault();
-            
+            var entityAdded = await repository.FindSingleAsync(x => x.Name == "Name");
+
             #endregion
 
             #region Assert
@@ -43,12 +45,12 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
 
 
         [Fact]
-        public void UpdateAfterAdded()
+        public async Task UpdateAfterAdded()
         {
             #region Arrange
 
             //-- Add entity
-            var repository = Context.MyConnectedEntities;
+            var repository = Context.MyDisconnectedEntities;
 
             var initialName = Guid.NewGuid().ToString();
 
@@ -60,11 +62,14 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
             repository.Add(entity);
             Context.Save();
 
-            //-- Fetch the item and update name
-            var entityAdded = repository.All().FirstOrDefault(i => i.Name == initialName);
+            //-- Detach the item in order get a different instance
+            repository.Detach(entity);
 
-            Assert.NotNull(entityAdded);
-            Assert.Same(entity, entityAdded);
+            //-- Fetch the item and update title
+            var newEntity = await repository.FindSingleAsync(i => i.Name == initialName);
+
+            Assert.NotNull(newEntity);
+            Assert.Same(entity, newEntity);
 
             #endregion
 
@@ -72,30 +77,30 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
 
             //-- Update the entity
             var newTitle = Guid.NewGuid().ToString();
-            entityAdded.Name = newTitle;
-            repository.Update(entityAdded);
+            newEntity.Name = newTitle;
+            repository.Update(newEntity);
             Context.Save();
 
-            var entityUpdated = repository.All().FirstOrDefault(i => i.Name == newTitle);
+            var entityUpdated = await repository.FindSingleAsync(i => i.Name == newTitle);
 
             #endregion
 
             #region Assert
 
             Assert.NotNull(entityUpdated);
-            Assert.Equal(newTitle, entity.Name );
-            Assert.Equal(entityAdded.Id, entityUpdated.Id);
+            Assert.Equal(newTitle, entityUpdated.Name);
+            Assert.Equal(newEntity.Id, entityUpdated.Id);
 
             #endregion
         }
 
         [Fact]
-        public void DeleteAfterAdded()
+        public async Task DeleteAfterAdded()
         {
             #region Arrange
 
             //-- Add entity
-            var repository = Context.MyConnectedEntities;
+            var repository = Context.MyDisconnectedEntities;
 
             var initialName = Guid.NewGuid().ToString();
 
@@ -106,7 +111,7 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
 
             repository.Add(entity);
             Context.Save();
-            var entityAdded = repository.All().FirstOrDefault(i => i.Name == initialName);
+            var entityAdded = await repository.FindSingleAsync(i => i.Name == initialName);
 
             Assert.NotNull(entityAdded);
 
@@ -122,17 +127,18 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
 
             #region Assert
 
-            Assert.DoesNotContain(repository.All(), i => i.Name == initialName);
+            var resultEntities = await repository.AllAsync();
+            Assert.DoesNotContain(resultEntities, i => i.Name == initialName);
 
             #endregion
         }
 
         [Fact]
-        public void AddAndFind()
+        public async Task AddAndFindAsync()
         {
             #region Arrange
 
-            var repository = Context.MyConnectedEntities;
+            var repository = Context.MyDisconnectedEntities;
 
             var entityAfter = new MyEntity()
             {
@@ -150,14 +156,14 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
             repository.Add(entityAfter);
             repository.Add(entityBefore);
             Context.Save();
-            var nbAdded = repository.All();
+            var nbAdded = await repository.AllAsync();
 
             #endregion
 
             #region Act
 
             RootSpecification<MyEntity> createdBefore = new MyEntityCreatedBeforeSpecification(DateTime.Now);
-            var entities = repository.Find(createdBefore);
+            var entities = await repository.FindAsync(createdBefore);
 
             #endregion
 
@@ -171,11 +177,11 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
         }
 
         [Fact]
-        public void AddMany()
+        public async Task AddMany()
         {
             #region Arrange
 
-            var repository = Context.MyConnectedEntities;
+            var repository = Context.MyDisconnectedEntities;
 
             var entities = new List<MyEntity>
             {
@@ -196,7 +202,7 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
             //-- Act
             repository.Add(entities);
             Context.Save();
-            var entitiesAdded = repository.All();
+            var entitiesAdded = await repository.AllAsync();
 
             #endregion
 
@@ -210,11 +216,11 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
         }
 
         [Fact]
-        public void UpdateMany()
+        public async Task UpdateMany()
         {
             #region Arrange
 
-            var repository = Context.MyConnectedEntities;
+            var repository = Context.MyDisconnectedEntities;
 
             var initialName1 = Guid.NewGuid().ToString();
             var initialName2 = Guid.NewGuid().ToString();
@@ -234,7 +240,7 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
             //-- Add and Get many
             repository.Add(entities);
             Context.Save();
-            var entitiesAdded = repository.All();
+            var entitiesAdded = await repository.AllAsync();
 
             var names = entitiesAdded.Select(e => e.Name);
             Assert.Contains(initialName1, names);
@@ -252,7 +258,7 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
 
             repository.Update(entitiesAdded);
             Context.Save();
-            var entitiesUpdated = repository.All();
+            var entitiesUpdated = await repository.AllAsync();
 
             #endregion
 
@@ -261,16 +267,17 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
             var namesUpdated = entitiesUpdated.Select(e => e.Name);
             Assert.Contains(updatedName1, namesUpdated);
             Assert.Contains(updatedName2, namesUpdated);
-            
+
+
             #endregion
         }
 
         [Fact]
-        public void DeleteMany()
+        public async Task DeleteMany()
         {
             #region Arrange
 
-            var repository = Context.MyConnectedEntities;
+            var repository = Context.MyDisconnectedEntities;
 
             var entities = new List<MyEntity>
             {
@@ -287,7 +294,7 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
             //-- Add and Get many
             repository.Add(entities);
             Context.Save();
-            var entitiesAdded = repository.All();
+            var entitiesAdded = await repository.AllAsync();
 
             var nbEntities = entitiesAdded.Count();
             Assert.Equal(2, nbEntities);
@@ -303,18 +310,18 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
 
             #region Assert
 
-            var nb = repository.All().Count();
+            var nb = repository.AllAsync().Result.Count();
             Assert.Equal(0, nb);
 
             #endregion
         }
 
         [Fact]
-        public void AddManyAndGetAll()
+        public async Task AddManyAndGetAll()
         {
             #region Arrange
 
-            var repository = Context.MyConnectedEntities;
+            var repository = Context.MyDisconnectedEntities;
 
             var entities = new List<MyEntity>
             {
@@ -336,7 +343,7 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
 
             #region Act
 
-            var entitiesAdded = repository.All();
+            var entitiesAdded = await repository.AllAsync();
 
             #endregion
 
@@ -353,7 +360,7 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
         {
             #region Arrange
 
-            var repository = Context.MyConnectedEntities;
+            var repository = Context.MyDisconnectedEntities;
 
             var nestedEntities = new List<MyNestedEntity>
             {
@@ -393,8 +400,8 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
 
             #region Act
 
-            var aggregatSpecification = new AggregatSpecification<MyEntity>(includeLeafs: i => i.MyNestedEntity);
-            var entitiesAdded = repository.All(aggregatSpecification).OrderBy(o => o.Id);
+            var aggregatSpecification = new AggregatSpecification<MyEntity>( includeLeafs:i => i.MyNestedEntity);
+            var entitiesAdded = repository.AllAsync(aggregatSpecification).Result.OrderBy(o => o.Id);
             var nbEntities = entitiesAdded.Count();
 
             #endregion
@@ -415,7 +422,7 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
         {
             #region Arrange
 
-            var repository = Context.MyConnectedEntities;
+            var repository = Context.MyDisconnectedEntities;
 
             var nestedEntities = new List<MyNestedEntity>
             {
@@ -455,8 +462,8 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
 
             #region Act
 
-            var aggregatSpecification = new AggregatSpecification<MyEntity>(new[] { "MyNestedEntity" });
-            var entitiesAdded = repository.All(aggregatSpecification).OrderBy(o => o.Id);
+            var aggregatSpecification = new AggregatSpecification<MyEntity>(includeTrees: new[] { "MyNestedEntity" });
+            var entitiesAdded = repository.AllAsync(aggregatSpecification).Result.OrderBy(o => o.Id);
             var nbEntities = entitiesAdded.Count();
 
             #endregion
@@ -472,52 +479,14 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
             #endregion
         }
 
+
+
         [Fact]
-        public void AddTreeAndGet()
+        public async Task AddTreeAndFindWithInclude()
         {
             #region Arrange
 
-            var repository = Context.MyConnectedEntities;
-
-            var nestedEntity = new MyNestedEntity()
-            {
-                Id = 1,
-                Name = Guid.NewGuid().ToString()
-            };
-
-            var entity = new MyEntity()
-            {
-                Id = 1,
-                Name = Guid.NewGuid().ToString(),
-                MyNestedEntity = nestedEntity
-            };
-
-            //-- Add
-            repository.Add(entity);
-            Context.Save();
-
-            #endregion
-
-            #region Act
-
-            var entitiesAdded = repository.Get(1);
-
-            #endregion
-
-            #region Assert
-
-            Assert.NotNull(entitiesAdded);
-            Assert.Equal(1, entitiesAdded.Id);
-
-            #endregion
-        }
-
-        [Fact]
-        public void AddTreeAndFindWithInclude()
-        {
-            #region Arrange
-
-            var repository = Context.MyConnectedEntities;
+            var repository = Context.MyDisconnectedEntities;
 
             var nestedEntityBefore = new MyNestedEntity()
             {
@@ -541,7 +510,7 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef.IntegrationTest
             #region Act
 
             RootSpecification<MyEntity> createdBefore = new MyEntityCreatedBeforeSpecification(DateTime.Now);
-            var entities = repository.Find(createdBefore);
+            var entities = await repository.FindAsync(createdBefore);
 
             #endregion
 
