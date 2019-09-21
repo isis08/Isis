@@ -25,15 +25,15 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef
             this.entitySet = this.context.Set<TEntity>() ?? throw new ArgumentNullException(nameof(entitySet));
         }
 
-        public virtual IEnumerable<TEntity> All(IAggregatSpecification<TEntity> treeSpecification = null)
+        public virtual async Task<List<TEntity>> AllAsync(IAggregatSpecification<TEntity> treeSpecification = null)
         {
             if (treeSpecification == null)
             {
-                return entitySet;
+                return await entitySet.ToListAsync();
             }
 
-            return BuildAggregate(treeSpecification.IncludeLeafs, treeSpecification.IncludeTrees)
-                .AsEnumerable();
+            return await BuildAggregate(treeSpecification.IncludeLeafs, treeSpecification.IncludeTrees)
+                .ToListAsync();
         }
 
         public virtual Task<TEntity> GetAsync(long id)
@@ -41,25 +41,43 @@ namespace Isis.Architecture.Infrastructure.Repository.Ef
             return entitySet.FindAsync(id);
         }
 
-        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> rootSpecification,
+        public async Task<TEntity> FindSingleAsync(IRootSpecification<TEntity> rootSpecification
+            , IAggregatSpecification<TEntity> treeSpecification = null)
+        {
+            return await FindSingleAsync(rootSpecification.ToExpression(), treeSpecification);
+        }
+
+        public async Task<TEntity> FindSingleAsync(Expression<Func<TEntity, bool>> rootSpecification
+            , IAggregatSpecification<TEntity> treeSpecification = null)
+        {
+            if (treeSpecification == null)
+            {
+                return await entitySet.FirstOrDefaultAsync(rootSpecification);
+            }
+
+            return await BuildAggregate(treeSpecification.IncludeLeafs, treeSpecification.IncludeTrees)
+                .FirstOrDefaultAsync(rootSpecification);
+        }
+
+        public virtual async Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> rootSpecification,
             IAggregatSpecification<TEntity> treeSpecification = null)
         {
             if (treeSpecification == null)
             {
-                return entitySet.Where(rootSpecification);
+                return await entitySet.Where(rootSpecification).ToListAsync();
             }
 
-            return BuildAggregate(treeSpecification.IncludeLeafs, treeSpecification.IncludeTrees)
+            return await BuildAggregate(treeSpecification.IncludeLeafs, treeSpecification.IncludeTrees)
                 .Where(rootSpecification)
-                .AsEnumerable();
+                .ToListAsync();
 
         }
 
 
-        public virtual IEnumerable<TEntity> Find(IRootSpecification<TEntity> rootSpecification,
+        public virtual async Task<List<TEntity>> FindAsync(IRootSpecification<TEntity> rootSpecification,
             IAggregatSpecification<TEntity> treeSpecification = null)
         {
-            return Find(rootSpecification.ToExpression(), treeSpecification);
+            return await FindAsync(rootSpecification.ToExpression(), treeSpecification);
         }
 
         protected IQueryable<TEntity> BuildAggregate(IEnumerable<Expression<Func<TEntity, object>>> includeChild, IEnumerable<string> includeTree)

@@ -8,14 +8,20 @@ namespace Isis.Architecture.Core.Domain.Repository
 {
     public interface IRepositoryBase<TEntity> where TEntity : class
     {
-        IEnumerable<TEntity> All(IAggregatSpecification<TEntity> querySpecification = null);
+        Task<List<TEntity>> AllAsync(IAggregatSpecification<TEntity> querySpecification = null);
 
         Task<TEntity> GetAsync(long id);
 
-        IEnumerable<TEntity> Find(IRootSpecification<TEntity> rootSpecification,
-            IAggregatSpecification<TEntity> specification);
+        Task<TEntity> FindSingleAsync(IRootSpecification<TEntity> rootSpecification,
+            IAggregatSpecification<TEntity> specification = null);
 
-        IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> rootSpecification,
-            IAggregatSpecification<TEntity> specification);
+        Task<TEntity> FindSingleAsync(Expression<Func<TEntity, bool>> rootSpecification,
+            IAggregatSpecification<TEntity> specification = null);
+
+        Task<List<TEntity>> FindAsync(IRootSpecification<TEntity> rootSpecification,
+            IAggregatSpecification<TEntity> specification = null);
+
+        Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> rootSpecification,
+            IAggregatSpecification<TEntity> specification = null);
     }
 }

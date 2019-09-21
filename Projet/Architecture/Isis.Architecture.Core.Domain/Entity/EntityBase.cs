@@ -4,7 +4,17 @@ namespace Isis.Architecture.Core.Domain.Entity
 {
     public abstract class EntityBase : IEntityBase, ICloneable
     {
-        public virtual long Id { get; set; }
+        private long _id;
+
+        public virtual long Id
+        {
+            get => _id;
+            set
+            {
+                if(_id.Equals(value)) return;
+                _id = value;
+            }
+        }
 
         public virtual object Clone()
         {
