@@ -1,0 +1,27 @@
+image: microsoft/dotnet:latest
+
+stages:
+  - build
+  - test
+
+variables:
+  project: "Solution/Isis.Architecture"
+
+before_script:
+  - "dotnet restore"
+
+build:
+  stage: build
+  variables:
+    build_path: "Projet/Architecture/Isis.Architecture.Core.Domain"
+  script:
+    - "cd $build_path"
+    - "dotnet build"
+
+test:
+  stage: test
+  variables:
+    test_path: "Test/Isis.Architecture.Core.Domain.UnitTest"
+  script:
+    - "cd $test_path"
+    - "dotnet test"
