@@ -12,6 +12,7 @@ variables:
 
 before_script:
   - "cd $solutionPath" 
+  - "pwd"
   - "dotnet restore"
   - "cd ../.."
 
