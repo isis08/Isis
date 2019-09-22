@@ -13,11 +13,12 @@ variables:
 before_script:
   - "cd $solutionPath" 
   - "dotnet restore"
+  - "cd ../.."
 
 build:
   stage: build
   variables:
-    build_path: "../../$projectPath"
+    build_path: "$projectPath"
   script:
     - "cd $build_path"
     - "dotnet build"
@@ -25,7 +26,7 @@ build:
 test:
   stage: test
   variables:
-    test_path: "../../$testPath"
+    test_path: "$testPath"
   script:
     - "cd $test_path"
     - "dotnet test"
